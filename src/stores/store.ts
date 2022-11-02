@@ -8,6 +8,8 @@ export const moves: Writable<number> = writable(0);
 export const seconds: Writable<number> = writable(0);
 export const puzzle: Writable<number[]> = writable([]);
 export const width: Writable<number> = writable(0);
+export const state: Writable<string> = writable("idle");
+export const showNumbers: Writable<boolean> = writable(true);
 
 export const widthEven: Readable<boolean> = derived(width, (width) => {
   return width % 2 === 0;
@@ -64,6 +66,9 @@ export const solvable: Readable<boolean> = derived(
 );
 
 export const isSolved: Readable<boolean> = derived(puzzle, (puzzle) => {
+  // let puzzleTest = [...puzzle];
+  // let zeroIndex = puzzleTest.indexOf(0);
+  // puzzleTest.unshift(puzzleTest.splice(zeroIndex, 1)[0]);
   for (let i = 0; i < puzzle.length - 1; i++) {
     if (puzzle[i] !== i + 1) {
       return false;
@@ -73,9 +78,12 @@ export const isSolved: Readable<boolean> = derived(puzzle, (puzzle) => {
 });
 
 // assume square
-export const dimension: Readable<number> = derived([puzzle, width], (dependencies) => {
-  return Math.ceil(dependencies[0].length / dependencies[1]) + 1;
-});
+export const dimension: Readable<number> = derived(
+  [puzzle, width],
+  (dependencies) => {
+    return Math.ceil(dependencies[0].length / dependencies[1]) + 1;
+  }
+);
 
 // Array index position of zero
 export const emptyIndex: Readable<number> = derived(puzzle, (puzzle) => {
@@ -88,13 +96,14 @@ export const adjacentIndexes: Readable<number[]> = derived(
   (dependencies) => {
     let puzzle = dependencies[2];
     let emptyIndex = dependencies[0];
-    let dimension = dependencies[1]
+    let dimension = dependencies[1];
 
     let rightIndex = puzzle.length == emptyIndex + 1 ? null : emptyIndex + 1;
     let leftIndex = emptyIndex == 0 ? null : emptyIndex - 1;
-    let aboveIndex = emptyIndex - dimension < 0 ? null : emptyIndex - dimension
-    let belowIndex = emptyIndex + dimension > puzzle.length ? null : emptyIndex + dimension
+    let aboveIndex = emptyIndex - dimension < 0 ? null : emptyIndex - dimension;
+    let belowIndex =
+      emptyIndex + dimension > puzzle.length ? null : emptyIndex + dimension;
 
-    return [rightIndex, leftIndex, aboveIndex, belowIndex]
+    return [rightIndex, leftIndex, aboveIndex, belowIndex];
   }
 );

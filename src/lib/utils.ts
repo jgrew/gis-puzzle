@@ -6,6 +6,7 @@ import Extent from "@arcgis/core/geometry/Extent";
 
 export const createArray = (num: number) => {
   return shuffle(Array.from({ length: num }, (v, i) => i));
+
 };
 
 export const isAdjacent = (gridIndex: number) => {
