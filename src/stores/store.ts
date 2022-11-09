@@ -2,14 +2,41 @@ import { writable, derived, get } from "svelte/store";
 import type { Writable, Readable } from "svelte/store";
 import MapView from "@arcgis/core/Map";
 
+export type State = 'idle' | 'pre' | 'active' | 'paused' | 'solved'
+
 export const view: Writable<__esri.MapView> = writable(undefined);
 export const paused: Writable<boolean> = writable(false);
 export const moves: Writable<number> = writable(0);
-export const seconds: Writable<number> = writable(0);
+// export const seconds: Writable<number> = writable(0);
 export const puzzle: Writable<number[]> = writable([]);
 export const width: Writable<number> = writable(0);
-export const state: Writable<string> = writable("idle");
-export const showNumbers: Writable<boolean> = writable(true);
+export const state: Writable<State> = writable("idle");
+export const showNumbers: Writable<boolean> = writable(false);
+export const initialTime: Writable<number> = writable(Date.now())
+export const finalTime: Writable<number> = writable(0)
+
+export const tick: Readable<number> = derived(state, (state, set) => {
+  const interval = setInterval(()=>{
+    set(Date.now())
+  }, 1000)
+
+  return ()=>{
+    clearInterval(interval)
+  }
+})
+
+export const seconds: Readable<number> = derived([state, tick, initialTime], (dependencies)=>{
+  let state = dependencies[0]
+  let tick = dependencies[1]
+  let initTime = dependencies[2]
+  if (state === 'idle' || state === 'pre') {
+    return 0
+  }
+  if (state === 'active') {
+    return tick - initTime
+  } 
+
+})
 
 export const widthEven: Readable<boolean> = derived(width, (width) => {
   return width % 2 === 0;
@@ -91,19 +118,19 @@ export const emptyIndex: Readable<number> = derived(puzzle, (puzzle) => {
 });
 
 // Array index positions relating to adjacent game grid cells
-export const adjacentIndexes: Readable<number[]> = derived(
-  [emptyIndex, dimension, puzzle],
-  (dependencies) => {
-    let puzzle = dependencies[2];
-    let emptyIndex = dependencies[0];
-    let dimension = dependencies[1];
+// export const adjacentIndexes: Readable<number[]> = derived(
+//   [emptyIndex, dimension, puzzle],
+//   (dependencies) => {
+//     let puzzle = dependencies[2];
+//     let emptyIndex = dependencies[0];
+//     let dimension = dependencies[1];
 
-    let rightIndex = puzzle.length == emptyIndex + 1 ? null : emptyIndex + 1;
-    let leftIndex = emptyIndex == 0 ? null : emptyIndex - 1;
-    let aboveIndex = emptyIndex - dimension < 0 ? null : emptyIndex - dimension;
-    let belowIndex =
-      emptyIndex + dimension > puzzle.length ? null : emptyIndex + dimension;
+//     let rightIndex = puzzle.length == emptyIndex + 1 ? null : emptyIndex + 1;
+//     let leftIndex = emptyIndex == 0 ? null : emptyIndex - 1;
+//     let aboveIndex = emptyIndex - dimension < 0 ? null : emptyIndex - dimension;
+//     let belowIndex =
+//       emptyIndex + dimension > puzzle.length ? null : emptyIndex + dimension;
 
-    return [rightIndex, leftIndex, aboveIndex, belowIndex];
-  }
-);
+//     return [rightIndex, leftIndex, aboveIndex, belowIndex];
+//   }
+// );

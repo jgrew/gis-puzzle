@@ -1,49 +1,76 @@
 <script type="ts">
-  import { moves, isSolved, showNumbers, puzzle } from "../stores/store";
-  import { fade } from "svelte/transition";
+  import {
+    moves,
+    isSolved,
+    finalTime,
+    state,
+    puzzle,
+    tick,
+    seconds,
+  } from "../stores/store";
+  import { Button, P, Span } from "flowbite-svelte";
+  // import { createEventDispatcher } from 'svelte';
+  // const dispatch = createEventDispatcher();
 
   const solve = () => {
     let solve = $puzzle.sort((a, b) => {
       return a - b;
     });
-    solve.shift()
-    solve.push(0)
-    $puzzle = solve
-    $moves = $moves + 1
+    solve.shift();
+    solve.push(0);
+    $puzzle = solve;
+    $moves = $moves + 1;
+  };
+
+  const formatTime = (milliseconds: number) => {
+    if (!milliseconds) {
+      return
+    }
+    return new Date(milliseconds).toISOString().slice(11, 19);
+    // return Math.floor(milliseconds / 1000);
+  };
+
+  const reset = () => {
+    // dispatch('state', {
+    //   reset: true
+    // })
   };
 </script>
 
 <div class="grid grid-cols-2 grid-rows-2">
   <div>
-    <span
+    <P size="4xl"><Span weight="bold" class="uppercase">moves</Span> {$moves}</P
+    >
+    <!-- <span
       class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
       >MOVES
     </span>
     <span
       class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
       >{$moves}</span
-    >
+    > -->
   </div>
   <div class="justify-self-end">
-    <span
+    <P size="4xl"
+      ><Span weight="bold" class="uppercase"
+        >{!$isSolved ? "time" : "final"}</Span
+      >
+      {!$isSolved ? formatTime($seconds) : formatTime($finalTime)}</P
+    >
+    <!-- <span
       class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
       >TIME
     </span>
     <span
       class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
       >{$moves}</span
-    >
+    > -->
   </div>
   <div>
-    <label>
-      <input type="checkbox" bind:checked={$showNumbers} />
-      Show Numbers?
-    </label>
-    <!-- <input on:click={()=>{return}}type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked={$showNumbers}><span class="ml-2 text-gray-700">Show Numbers?</span> -->
+    <!-- <Button size="xs" pill={true} on:click={()=>{$state = 'idle'}}>Reset</Button> -->
   </div>
   <div class="justify-self-end">
-    <label>
-      <button on:click={solve}> Solve </button>
-    </label>
+    <Button size="xs" color="yellow" pill={true} on:click={solve}>Solve?</Button
+    >
   </div>
 </div>

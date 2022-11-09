@@ -1,9 +1,6 @@
 <script lang="ts">
   import {
-    adjacentIndexes,
     emptyIndex,
-    dimension,
-    isSolved,
     showNumbers,
   } from "../stores/store";
   import { isAdjacent, swapIndex } from "../lib/utils";

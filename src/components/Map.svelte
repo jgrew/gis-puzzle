@@ -6,7 +6,7 @@
   import { fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
 
-  export let invisible: boolean = false;
+  export let blur: boolean = false;
   let container: HTMLDivElement;
 
   onMount(() => {
@@ -21,15 +21,17 @@
       zoom: 13,
     });
   });
+
+
 </script>
 
-{#if !invisible}
+
   <div
-    class="viewDiv absolute inset-0 {invisible ? 'invisible' : ''}"
+    class="viewDiv absolute inset-0 {blur ? 'blur-md' : ''}"
     bind:this={container}
     transition:fade={{ duration: 2000, easing: cubicOut }}
   />
-{/if}
+
 
 <style>
   .viewDiv {

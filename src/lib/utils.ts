@@ -6,9 +6,13 @@ import Extent from "@arcgis/core/geometry/Extent";
 
 export const createArray = (num: number) => {
   return shuffle(Array.from({ length: num }, (v, i) => i));
-
 };
 
+/**
+ * Checks if the grid index is adjacent to the empty grid cell
+ * @param gridIndex well this is the array index...
+ * @returns
+ */
 export const isAdjacent = (gridIndex: number) => {
   const index = get(emptyIndex);
   const dim = get(dimension);
@@ -25,6 +29,9 @@ export const isAdjacent = (gridIndex: number) => {
   return left || right || up || down;
 };
 
+/**
+ * Swaps places in puzzle array
+ */
 export const swapIndex = (from: number, to: number) => {
   let arr = get(puzzle);
   arr[from] = arr.splice(to, 1, arr[from])[0];
@@ -32,46 +39,49 @@ export const swapIndex = (from: number, to: number) => {
   moves.update((moves) => moves + 1);
 };
 
+/**
+ * Get the screen area of the input element
+ * @param element html elment
+ * @returns
+ */
 export const divToExtent = (element: HTMLElement) => {
   let mapView = get(view);
 
   const rect = element.getBoundingClientRect();
-//   console.log(rect);
-//   console.log("Lower Left - x: " + rect.left, " y: ", rect.bottom);
-//   console.log("Upper Right - x: ", rect.right, " y: ", rect.y);
+  //   console.log(rect);
+  //   console.log("Lower Left - x: " + rect.left, " y: ", rect.bottom);
+  //   console.log("Upper Right - x: ", rect.right, " y: ", rect.y);
 
   //   const pointt = new Point([rect.x, rect.y - rect.height])
 
-  const lowerLeft = mapView.toMap({
-    x: rect.x,
-    y: rect.y + rect.height,
-  });
+  // const lowerLeft = mapView.toMap({
+  //   x: rect.x,
+  //   y: rect.y + rect.height,
+  // });
 
-  const upperRight = mapView.toMap({
-    x: rect.x + rect.width,
-    y: rect.y,
-  });
-    // console.log(lowerLeft, upperRight);
-  const ext = new Extent({
-    xmin: lowerLeft.x,
-    ymin: lowerLeft.y,
-    xmax: upperRight.x,
-    ymax: upperRight.y,
-    spatialReference: {
-      wkid: 4326,
-    },
-  });
-  
+  // const upperRight = mapView.toMap({
+  //   x: rect.x + rect.width,
+  //   y: rect.y,
+  // });
+  // console.log(lowerLeft, upperRight);
+  // const ext = new Extent({
+  //   xmin: lowerLeft.x,
+  //   ymin: lowerLeft.y,
+  //   xmax: upperRight.x,
+  //   ymax: upperRight.y,
+  //   spatialReference: {
+  //     wkid: 4326,
+  //   },
+  // });
+
   const area = {
     x: rect.x,
     y: rect.bottom,
     width: rect.width,
-    height: rect.height
-  }
-  return area
+    height: rect.height,
+  };
+  return area;
 };
-
-
 
 // export const move = (gridIndex: number) => {
 //     let toIndex = get(emptyIndex)
