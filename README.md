@@ -1,3 +1,7 @@
+# GIS Day 2022
+
+Pan the map to a location and hit play. Arrange the tiles in the correct order to complete the puzzle.
+
 # Svelte + TS + Vite
 
 This template should help get you started developing with Svelte and TypeScript in Vite.
