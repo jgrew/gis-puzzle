@@ -7,13 +7,17 @@ export type State = 'idle' | 'pre' | 'active' | 'paused' | 'solved'
 export const view: Writable<__esri.MapView> = writable(undefined);
 export const paused: Writable<boolean> = writable(false);
 export const moves: Writable<number> = writable(0);
-// export const seconds: Writable<number> = writable(0);
+export const size: Writable<number> = writable(9);
 export const puzzle: Writable<number[]> = writable([]);
-export const width: Writable<number> = writable(0);
+// export const width: Writable<number> = writable(0);
 export const state: Writable<State> = writable("idle");
 export const showNumbers: Writable<boolean> = writable(false);
 export const initialTime: Writable<number> = writable(Date.now())
 export const finalTime: Writable<number> = writable(0)
+
+export const width: Readable<number> = derived(size, (size)=>{
+  return size == 16 ? 4 : 3
+})
 
 export const tick: Readable<number> = derived(state, (state, set) => {
   const interval = setInterval(()=>{
@@ -108,7 +112,7 @@ export const isSolved: Readable<boolean> = derived(puzzle, (puzzle) => {
 export const dimension: Readable<number> = derived(
   [puzzle, width],
   (dependencies) => {
-    return Math.ceil(dependencies[0].length / dependencies[1]) + 1;
+    return Math.ceil(dependencies[0].length / dependencies[1]);
   }
 );
 

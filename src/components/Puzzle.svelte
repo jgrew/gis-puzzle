@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { emptyIndex, showNumbers } from "../stores/store";
+  import { emptyIndex, showNumbers, size, dimension } from "../stores/store";
   import { isAdjacent, swapIndex } from "../lib/utils";
   import { flip } from "svelte/animate";
+  import { fade } from 'svelte/transition';
 
   export let puzzle: number[] = [];
   export let handleClick = (index) => {
@@ -10,12 +11,17 @@
     }
     swapIndex(index, $emptyIndex);
   };
+  $: containerClass = (): string => {
+    const css = ["w-full grid overflow-hidden grid-flow-row gap-0"]
+    css.push(`grid-cols-${$dimension} grid-cols-${$dimension}`)
+    return css.join(' ').trim()
+  }
   //  gap-0 relative grid grid-rows-3 grid-flow-col
-  //class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2 h-60 w-60"
+  //class="w-full grid overflow-hidden grid-flow-row grid-cols-3 grid-rows-3 gap-0"
 </script>
 
 <div
-  class="w-full grid overflow-hidden grid-flow-row grid-cols-3 grid-rows-3 gap-0"
+  class={containerClass()}
 >
   {#each puzzle as value, index (value)}
     <div
@@ -34,7 +40,7 @@
         Row: {Math.floor(index / 3)}
         Movable: {isAdjacent(index)} -->
 
-      <img class="object-cover" src="" alt="" />
+      <img transition:fade class="object-cover" src="" alt="" />
       {#if $showNumbers}
         <!-- <span class="absolute top-8 left-8 w-8 h-8 text-white  bg-white-400 border-2 border-black rounded-full">{value}</span> -->
         <span class="absolute text-white left-6 top-6"

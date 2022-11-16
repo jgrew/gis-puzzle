@@ -13,13 +13,19 @@
     isSolved,
     finalTime,
     seconds,
+    size
   } from "./stores/store";
   import { createArray, divToExtent } from "./lib/utils";
+
 
   let gameVisible: boolean = false;
   $: cellCount = $dimension * $dimension;
   $: if (!$solvable) {
-    $puzzle = createArray(9);
+    $puzzle = createArray($size);
+  }
+
+  $: {
+    $puzzle = createArray($size);
   }
 
   $: if ($state === "idle") {
@@ -31,11 +37,14 @@
     $state = "solved";
   }
 
+
   // listen to start event and generate place tiles into grid
   $: if ($state === "pre") {
+    // console.log($size);
+    
     generateTileImages().then((result) => {
-      //   console.log(result);
-      for (let i = 0; i < cellCount; i++) {
+      // console.log(result)
+      for (let i = 0; i < $size; i++) {
         const gridToIndex = i + 1;
         const node = document
           .querySelector(`div[data-value='${gridToIndex}']`)
@@ -53,8 +62,9 @@
 
   // get screenshots of view according to grid cell bounding rect
   const generateTileImages = async () => {
+    await new Promise(r => setTimeout(r, 2000));
     const promises = [];
-    for (let i = 0; i < cellCount; i++) {
+    for (let i = 0; i < $size; i++) {
       const node = document.querySelector(`#index-${i}`);
       const ext = divToExtent(node as HTMLElement);
 
@@ -62,12 +72,14 @@
         $view?.takeScreenshot({ area: ext, format: "png", ignorePadding: true })
       );
     }
+    // console.log(promises)
     const result = await Promise.all(promises);
     return result;
   };
 
   onMount(() => {
-    $width = 5;
+    // $width = 3;
+    $puzzle = createArray($size);
   });
 </script>
 
