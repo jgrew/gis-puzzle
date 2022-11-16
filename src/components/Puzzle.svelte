@@ -13,7 +13,7 @@
   };
   $: containerClass = (): string => {
     const css = ["w-full grid overflow-hidden grid-flow-row gap-0"]
-    css.push(`grid-cols-${$dimension} grid-rows-${$dimension}`)
+    css.push(`md:grid-cols-${$dimension} md:grid-rows-${$dimension}`)
     return css.join(' ').trim()
   }
   //  gap-0 relative grid grid-rows-3 grid-flow-col
@@ -33,7 +33,7 @@
       id={`index-${index}`}
       data-index={index}
       data-value={value}
-      class="rounded relative h-48 w-48"
+      class="rounded h-48 w-48"
     >
       <!-- Value: {value === 0 ? "BLANK" : value}
         Index: {index}
