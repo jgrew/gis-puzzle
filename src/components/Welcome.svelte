@@ -53,7 +53,7 @@
           <span> Options</span>
         </span>
         <List tag="ul" list="none" >
-          <Li><Checkbox bind:checked={$showNumbers}>Show grid numbers?</Checkbox></Li>
+          <Li><Checkbox bind:checked={$showNumbers}>Show tile numbers?</Checkbox></Li>
           <Li><Checkbox bind:checked={large}>Large 16 tile game</Checkbox></Li>
           <Li><Checkbox bind:checked={$blackAndWhite}>Grayscale tiles</Checkbox></Li>
         </List>

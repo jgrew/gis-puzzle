@@ -80,7 +80,6 @@
   };
 
   onMount(() => {
-    // $width = 3;
     $puzzle = createArray($size);
   });
 </script>

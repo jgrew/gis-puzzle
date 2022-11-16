@@ -17,7 +17,7 @@
     $view = new MapView({
       container,
       map,
-      center: [-118.805, 34.027],
+      center: [-117.760746, 33.70296],
       zoom: 13,
     });
   });
