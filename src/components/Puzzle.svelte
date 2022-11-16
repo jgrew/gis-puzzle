@@ -40,7 +40,7 @@
         Row: {Math.floor(index / 3)}
         Movable: {isAdjacent(index)} -->
 
-      <img transition:fade class="object-cover" src="" alt="" />
+      <img class="object-cover" src="" alt="" />
       {#if $showNumbers}
         <!-- <span class="absolute top-8 left-8 w-8 h-8 text-white  bg-white-400 border-2 border-black rounded-full">{value}</span> -->
         <span class="absolute text-white left-6 top-6"

@@ -46,8 +46,10 @@
       // console.log(result)
       for (let i = 0; i < $size; i++) {
         const gridToIndex = i + 1;
+        // console.log(`div[data-value='${i}']`)
         const node = document
           .querySelector(`div[data-value='${gridToIndex}']`)
+          // .querySelector(`#index-${i}`)
           .querySelector("img");
         // console.log(result[i])
         node.width = result[i].data.width;
