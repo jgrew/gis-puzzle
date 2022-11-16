@@ -13,7 +13,11 @@
   };
   $: containerClass = (): string => {
     const css = ["w-full grid overflow-hidden grid-flow-row gap-0"]
-    css.push(`md:grid-cols-${$dimension} md:grid-rows-${$dimension}`)
+    if ($size == 16) {
+      css.push('grid-cols-4 grid-rows-4')
+    } else {
+      css.push('grid-cols-3 grid-rows-3')
+    }
     return css.join(' ').trim()
   }
   //  gap-0 relative grid grid-rows-3 grid-flow-col
