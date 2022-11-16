@@ -13,6 +13,9 @@
   // const dispatch = createEventDispatcher();
 
   const solve = () => {
+    if($isSolved) {
+      return
+    }
     let solve = $puzzle.sort((a, b) => {
       return a - b;
     });

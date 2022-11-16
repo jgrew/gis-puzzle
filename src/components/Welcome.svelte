@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { state, showNumbers, size } from "../stores/store";
+  import { state, showNumbers, size, blackAndWhite } from "../stores/store";
   import { fade } from "svelte/transition";
   import {
     Button,
@@ -55,6 +55,7 @@
         <List tag="ul" list="none" >
           <Li><Checkbox bind:checked={$showNumbers}>Show grid numbers?</Checkbox></Li>
           <Li><Checkbox bind:checked={large}>Large 16 tile game</Checkbox></Li>
+          <Li><Checkbox bind:checked={$blackAndWhite}>Grayscale tiles</Checkbox></Li>
         </List>
       </AccordionItem>
     </Accordion>

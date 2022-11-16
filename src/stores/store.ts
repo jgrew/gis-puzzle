@@ -2,7 +2,7 @@ import { writable, derived, get } from "svelte/store";
 import type { Writable, Readable } from "svelte/store";
 import MapView from "@arcgis/core/Map";
 
-export type State = 'idle' | 'pre' | 'active' | 'paused' | 'solved'
+export type State = "idle" | "pre" | "active" | "paused" | "solved";
 
 export const view: Writable<__esri.MapView> = writable(undefined);
 export const paused: Writable<boolean> = writable(false);
@@ -12,35 +12,38 @@ export const puzzle: Writable<number[]> = writable([]);
 // export const width: Writable<number> = writable(0);
 export const state: Writable<State> = writable("idle");
 export const showNumbers: Writable<boolean> = writable(false);
-export const initialTime: Writable<number> = writable(Date.now())
-export const finalTime: Writable<number> = writable(0)
+export const initialTime: Writable<number> = writable(Date.now());
+export const finalTime: Writable<number> = writable(0);
+export const blackAndWhite: Writable<boolean> = writable(false);
 
-export const width: Readable<number> = derived(size, (size)=>{
-  return size == 16 ? 4 : 3
-})
+export const width: Readable<number> = derived(size, (size) => {
+  return size == 16 ? 4 : 3;
+});
 
 export const tick: Readable<number> = derived(state, (state, set) => {
-  const interval = setInterval(()=>{
-    set(Date.now())
-  }, 1000)
+  const interval = setInterval(() => {
+    set(Date.now());
+  }, 1000);
 
-  return ()=>{
-    clearInterval(interval)
+  return () => {
+    clearInterval(interval);
+  };
+});
+
+export const seconds: Readable<number> = derived(
+  [state, tick, initialTime],
+  (dependencies) => {
+    let state = dependencies[0];
+    let tick = dependencies[1];
+    let initTime = dependencies[2];
+    if (state === "idle" || state === "pre") {
+      return 0;
+    }
+    if (state === "active") {
+      return tick - initTime;
+    }
   }
-})
-
-export const seconds: Readable<number> = derived([state, tick, initialTime], (dependencies)=>{
-  let state = dependencies[0]
-  let tick = dependencies[1]
-  let initTime = dependencies[2]
-  if (state === 'idle' || state === 'pre') {
-    return 0
-  }
-  if (state === 'active') {
-    return tick - initTime
-  } 
-
-})
+);
 
 export const widthEven: Readable<boolean> = derived(width, (width) => {
   return width % 2 === 0;

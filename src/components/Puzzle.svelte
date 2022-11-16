@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { emptyIndex, showNumbers, size, dimension } from "../stores/store";
+  import { emptyIndex, showNumbers, size, blackAndWhite } from "../stores/store";
   import { isAdjacent, swapIndex } from "../lib/utils";
   import { flip } from "svelte/animate";
   import { fade } from 'svelte/transition';
@@ -20,6 +20,14 @@
     }
     return css.join(' ').trim()
   }
+
+  $: imageClass = (): string => {
+    const css = ["object-cover"]
+    if ($blackAndWhite) {
+      css.push('grayscale')
+    }
+    return css.join(' ').trim()
+  }
   //  gap-0 relative grid grid-rows-3 grid-flow-col
   //class="w-full grid overflow-hidden grid-flow-row grid-cols-3 grid-rows-3 gap-0"
 </script>
@@ -37,20 +45,22 @@
       id={`index-${index}`}
       data-index={index}
       data-value={value}
-      class="rounded h-48 w-48"
+      class="rounded relative h-48 w-48"
     >
       <!-- Value: {value === 0 ? "BLANK" : value}
         Index: {index}
         Row: {Math.floor(index / 3)}
         Movable: {isAdjacent(index)} -->
 
-      <img class="object-cover" src="" alt="" />
+      <img class={imageClass()} src="" alt="" />
       {#if $showNumbers}
         <!-- <span class="absolute top-8 left-8 w-8 h-8 text-white  bg-white-400 border-2 border-black rounded-full">{value}</span> -->
         <span class="absolute text-white left-6 top-6"
           >{value != 0 ? value : ""}</span
         >
+        
       {/if}
+    
     </div>
   {/each}
 </div>
