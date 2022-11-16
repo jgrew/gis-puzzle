@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    emptyIndex,
-    showNumbers,
-  } from "../stores/store";
+  import { emptyIndex, showNumbers } from "../stores/store";
   import { isAdjacent, swapIndex } from "../lib/utils";
   import { flip } from "svelte/animate";
 
@@ -37,13 +34,13 @@
         Row: {Math.floor(index / 3)}
         Movable: {isAdjacent(index)} -->
 
-        <img class="object-cover" src="" alt="" />
-        {#if $showNumbers}
+      <img class="object-cover" src="" alt="" />
+      {#if $showNumbers}
         <!-- <span class="absolute top-8 left-8 w-8 h-8 text-white  bg-white-400 border-2 border-black rounded-full">{value}</span> -->
-        <span class="absolute text-white left-6 top-6">{value != 0 ? value: ""}</span>
-        {/if}
-
-      
+        <span class="absolute text-white left-6 top-6"
+          >{value != 0 ? value : ""}</span
+        >
+      {/if}
     </div>
   {/each}
 </div>

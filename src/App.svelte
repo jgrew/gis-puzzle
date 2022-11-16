@@ -12,7 +12,7 @@
     view,
     isSolved,
     finalTime,
-    seconds
+    seconds,
   } from "./stores/store";
   import { createArray, divToExtent } from "./lib/utils";
 
@@ -27,16 +27,8 @@
   }
 
   $: if ($isSolved) {
-    $finalTime = $seconds
+    $finalTime = $seconds;
     $state = "solved";
-
-  }
-
-  $: {
-    console.log($puzzle)
-  }
-  $: {
-    console.log($isSolved)
   }
 
   // listen to start event and generate place tiles into grid

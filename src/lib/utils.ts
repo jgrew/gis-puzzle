@@ -82,17 +82,3 @@ export const divToExtent = (element: HTMLElement) => {
   };
   return area;
 };
-
-// export const move = (gridIndex: number) => {
-//     let toIndex = get(emptyIndex)
-//     if(!isAdjacent(gridIndex)) {
-//         return
-//     }
-//     const arrIndex = gridIndex - 1
-//     swapIndex(arrIndex, toIndex)
-//     moves.update((moves)=> moves + 1)
-// }
-
-// const createPuzzle = (arr: number[]) => {
-//   const shuffled = shuffle(arr);
-// };
